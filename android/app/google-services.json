@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "936070370176",
+    "project_id": "petlink-f3bad",
+    "storage_bucket": "petlink-f3bad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936070370176:android:4140a1961b778689f0a765",
+        "android_client_info": {
+          "package_name": "com.example.flutter_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "936070370176-eej3tftc2r1shm6tdke9096c14fnl97q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzRbuGfXZgXdEU5MrTJNuDZE0DuNOlgTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "936070370176-eej3tftc2r1shm6tdke9096c14fnl97q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
