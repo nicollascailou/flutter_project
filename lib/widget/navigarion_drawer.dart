@@ -22,7 +22,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               text: 'Pets',
               icon: Icons.pets_outlined,
               onClicked: rota == 'home_page_feed'
-                  ? () {Navigator.of(context).pushReplacementNamed('/');}
+                  ? () {}
                   : () {
                       Navigator.of(context).pushReplacementNamed('/');
                     }),

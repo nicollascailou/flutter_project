@@ -92,7 +92,9 @@ class _register_petState extends State<register_pet> {
                                   height: 300,
                                   width: double.infinity,
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -130,7 +132,9 @@ class _register_petState extends State<register_pet> {
                                   height: 300,
                                   width: double.infinity,
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -216,7 +220,9 @@ class _register_petState extends State<register_pet> {
                               color: Color(hexColor('#6FA698')),
                             )),
                       ),
-                      SizedBox(height: 16,),
+                      SizedBox(
+                        height: 16,
+                      ),
                       Container(
                         width: 300,
                         decoration: BoxDecoration(
@@ -226,24 +232,23 @@ class _register_petState extends State<register_pet> {
                         ),
                         child: Center(
                           child: DropdownButton<String>(
-                            dropdownColor:Color(hexColor('#D3E7E2')),
+                            dropdownColor: Color(hexColor('#D3E7E2')),
                             value: valueChoose,
                             hint: Text("Saúde"),
-                            items:
-                                healthlist.map((e) => buildMenuItem(e)).toList(),
+                            items: healthlist
+                                .map((e) => buildMenuItem(e))
+                                .toList(),
                             onChanged: (value) => setState(() {
-                              this.valueChoose = value;
+                              valueChoose = value;
                             }),
                           ),
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                        },
+                        onPressed: () {},
                         child: Text('Salvar'),
                         style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all(
+                            backgroundColor: MaterialStateProperty.all(
                                 Color(hexColor('#6FA698')))),
                       )
                     ]),
