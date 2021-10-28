@@ -12,39 +12,77 @@ class NavigationDrawerWidget extends StatelessWidget {
     return Drawer(
         child: Material(
       color: Color(hexColor('#6FA698')),
-      child: ListView(
-        padding: sidePadding,
-        children: <Widget>[
-          const SizedBox(
-            height: 48,
-          ),
-          buildMenuItem(
-              text: 'Pets',
-              icon: Icons.pets_outlined,
-              onClicked: rota == 'home_page_feed'
-                  ? () {}
-                  : () {
-                      Navigator.of(context).pushReplacementNamed('/');
-                    }),
-          const SizedBox(
-            height: 16,
-          ),
-          buildMenuItem(
-              text: 'Favoritos',
-              icon: Icons.favorite_border,
-              onClicked: () {
-                Navigator.of(context).pushNamed('register_pet');
-              }),
-          const SizedBox(
-            height: 16,
-          ),
-          buildMenuItem(
-              text: 'Pets',
-              icon: Icons.people,
-              onClicked: () {
-                Navigator.of(context).pushNamed('register_pet');
-              })
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                padding: sidePadding,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 48,
+                  ),
+                  buildMenuItem(
+                      text: 'Recepção',
+                      icon: Icons.home,
+                      onClicked: rota == 'welcome'
+                          ? () {
+                              Navigator.of(context).pop();
+                            }
+                          : () {
+                              int count = 0;
+                              Navigator.of(context)
+                                  .popUntil((_) => count++ >= 2);
+                            }),
+                  buildMenuItem(
+                      text: 'Pets',
+                      icon: Icons.pets_outlined,
+                      onClicked: rota == 'feed'
+                          ? () {
+                              Navigator.of(context).pop();
+                            }
+                          : () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pushNamed('feed');
+                            }),
+                  buildMenuItem(
+                      text: 'contate-nos', icon: Icons.mail, onClicked: () {}),
+                  /*const SizedBox(
+                    height: 16,
+                  ),
+                  buildMenuItem(
+                  text: 'Favoritos',
+                  icon: Icons.favorite_border,
+                  onClicked: () {
+                    Navigator.of(context).pushNamed('register_pet');
+                  }),*/
+                ],
+              ),
+            ),
+            buildMenuItem(
+                text: 'Fazer Logout',
+                icon: Icons.logout,
+                onClicked: () {
+                  int count = 0;
+                  rota == 'feed'
+                      ? Navigator.of(context).popUntil((_) => count++ >= 3)
+                      : Navigator.of(context).popUntil((_) => count++ >= 2);
+                }),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Row(
+                children: [
+                  Text(
+                    'Versão: 1.0',
+                    style: TextStyle(
+                        fontSize: 16, color: Colors.white.withOpacity(0.7)),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     ));
   }

@@ -44,7 +44,7 @@ class _login_pageState extends State<login_page> {
           child: SafeArea(
               child: Container(
             height: MediaQuery.of(context).size.height - 80,
-            width: MediaQuery.of(context).size.width,
+
             decoration: BoxDecoration(color: Color(hexColor('#D3E7E2'))),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -82,7 +82,9 @@ class _login_pageState extends State<login_page> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('welcome');
+                          },
                           child: Text('Login'),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
@@ -103,22 +105,32 @@ class _login_pageState extends State<login_page> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Center(
                     child: Text('ou entre usando redes sociais',
                         style: TextStyle(
                             fontSize: 16, color: Color(hexColor('#6FA698')))),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset('assets/facebookbuttonlogo.png',width: 70, height: 70,),
-                      SizedBox(width: 50,),
-                      Image.asset('assets/gmailbuttonlogo.png',width: 70, height: 70),
+                      Image.asset(
+                        'assets/facebookbuttonlogo.png',
+                        width: 70,
+                        height: 70,
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Image.asset('assets/gmailbuttonlogo.png',
+                          width: 70, height: 70),
                     ],
                   ),
-
                 ],
               ),
             ),

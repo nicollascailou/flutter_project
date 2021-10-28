@@ -102,19 +102,30 @@ class _register_user_pageState extends State<register_user_page> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Center(
                     child: Text('ou crie usando redes sociais',
                         style: TextStyle(
                             fontSize: 16, color: Color(hexColor('#6FA698')))),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset('assets/facebookbuttonlogo.png',width: 70, height: 70,),
-                      SizedBox(width: 50,),
-                      Image.asset('assets/gmailbuttonlogo.png',width: 70, height: 70),
+                      Image.asset(
+                        'assets/facebookbuttonlogo.png',
+                        width: 70,
+                        height: 70,
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Image.asset('assets/gmailbuttonlogo.png',
+                          width: 70, height: 70),
                     ],
                   ),
                 ],

@@ -13,7 +13,7 @@ class _home_page_feedState extends State<home_page_feed> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: buildNavigateButton(),
-      drawer: NavigationDrawerWidget('home_page_feed'),
+      drawer: NavigationDrawerWidget('feed'),
       appBar: AppBar(
           backgroundColor: Color(hexColor('#A6CCC2')),
           title: ListTile(
