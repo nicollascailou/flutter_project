@@ -54,6 +54,17 @@ flutter:
     - assets/facebookbuttonlogo.png
     - assets/gmailbuttonlogo.png
     - assets/profile.png
+    - assets/gata1.jpg
+    - assets/gata2.jpg
+    - assets/gata3.jpg
+    - assets/gata4.jpg
+    - assets/gata5.jpg
+    - assets/gata6.jpg
+    - assets/rafinha1.jpg
+    - assets/rafinha2.jpg
+    - assets/rafinha3.jpg
+    - assets/rafinha4.jpg
+    - assets/rafinha5.jpg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

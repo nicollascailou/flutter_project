@@ -29,7 +29,7 @@ class _register_user_pageState extends State<register_user_page> {
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
-                    color: Color(hexColor('#D3E7E2'))),
+                    color: Color(hexColor('#0E5442'))),
               ),
             )),
         body: SingleChildScrollView(

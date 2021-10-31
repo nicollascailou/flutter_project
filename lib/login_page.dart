@@ -29,14 +29,14 @@ class _login_pageState extends State<login_page> {
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
-                    color: Color(hexColor('#D3E7E2'))),
+                    color: Color(hexColor('#0E5442'))),
               ),
               trailing: Text(
                 'Login',
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
-                    color: Color(hexColor('#D3E7E2'))),
+                    color: Color(hexColor('#0E5442'))),
               ),
             )),
         body: SingleChildScrollView(
