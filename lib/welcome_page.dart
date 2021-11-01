@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/widget/navigarion_drawer.dart';
 
-class welcome_page extends StatefulWidget {
-  const welcome_page({Key? key}) : super(key: key);
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({Key? key}) : super(key: key);
 
   @override
-  _welcome_pageState createState() => _welcome_pageState();
+  _WelcomePageState createState() => _WelcomePageState();
 }
 
-class _welcome_pageState extends State<welcome_page> {
+class _WelcomePageState extends State<WelcomePage> {
   int hexColor(String color) {
     //adding prefix
     String newColor = '0xff' + color;
@@ -85,22 +85,18 @@ class _welcome_pageState extends State<welcome_page> {
                         Padding(
                           padding: const EdgeInsets.only(right: 8.0),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(60),
+                            borderRadius: BorderRadius.circular(50),
                             child: Material(
                               color: Color(hexColor('#D3E7E2')),
                               child: InkWell(
-                                  onTap: () {},
+                                onTap: () {Navigator.of(context).pushNamed('userForm');},
                                   splashColor: Color(hexColor('#D3E7E2')),
-                                  child: Container(
-                                    height: 100,
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                        image: new DecorationImage(
-                                            colorFilter: new ColorFilter.mode(
-                                                Colors.black.withOpacity(0.1),
-                                                BlendMode.dstATop),
-                                            image: new ExactAssetImage(
-                                                'assets/profile.png'))),
+                                  child: Opacity(
+                                    opacity: 0.7,
+                                    child: Image.asset(
+                                      'assets/profilePicPetlink.png',
+                                      height: 130,
+                                    ),
                                   )),
                             ),
                           ),
@@ -129,7 +125,7 @@ class _welcome_pageState extends State<welcome_page> {
                                   labelSufix: 'Perfil',
                                   labelIcon: Icon(Icons.person_rounded),
                                   navegation: () {
-                                    Navigator.of(context).pushNamed('');
+                                    Navigator.of(context).pushNamed('userForm');
                                   }),
                             ],
                           ),
@@ -147,7 +143,7 @@ class _welcome_pageState extends State<welcome_page> {
                                   labelSufix: 'LogOut',
                                   labelIcon: Icon(Icons.logout_rounded),
                                   navegation: () {
-                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pushReplacementNamed('/');
                                   }),
                               buildButton(
                                   labelPrefix: 'Entre em',

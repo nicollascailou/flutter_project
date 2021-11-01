@@ -2,17 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_project/widget/image_picker.dart';
 import 'package:image_picker/image_picker.dart';
 
-class register_pet extends StatefulWidget {
-  register_pet({Key? key}) : super(key: key);
+class RegisterPet extends StatefulWidget {
+  RegisterPet({Key? key}) : super(key: key);
 
   @override
-  _register_petState createState() => _register_petState();
+  _RegisterPetState createState() => _RegisterPetState();
 }
 
-class _register_petState extends State<register_pet> {
+class _RegisterPetState extends State<RegisterPet> {
   File? image;
   List healthlist = [
     "Excelente",
@@ -71,6 +70,17 @@ class _register_petState extends State<register_pet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color(hexColor('#A6CCC2')),
+          title: ListTile(
+            trailing: Text(
+              'Dispor pet para adoção',
+              style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                  color: Color(hexColor('#0E5442'))),
+            ),
+          )),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(

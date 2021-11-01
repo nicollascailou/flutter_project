@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class register_user_page extends StatefulWidget {
-  const register_user_page({Key? key}) : super(key: key);
+class RegisterUserPage extends StatefulWidget {
+  const RegisterUserPage({Key? key}) : super(key: key);
 
   @override
-  _register_user_pageState createState() => _register_user_pageState();
+  _RegisterUserPageState createState() => _RegisterUserPageState();
 }
 
-class _register_user_pageState extends State<register_user_page> {
+class _RegisterUserPageState extends State<RegisterUserPage> {
   int hexColor(String color) {
     //adding prefix
     String newColor = '0xff' + color;
@@ -93,7 +93,7 @@ class _register_user_pageState extends State<register_user_page> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () { Navigator.of(context).pushReplacementNamed('userForm');},
                           child: Text('Criar Conta'),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(

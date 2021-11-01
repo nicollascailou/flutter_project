@@ -66,8 +66,8 @@ class NavigationDrawerWidget extends StatelessWidget {
                 onClicked: () {
                   int count = 0;
                   rota == 'feed'
-                      ? Navigator.of(context).popUntil((_) => count++ >= 3)
-                      : Navigator.of(context).popUntil((_) => count++ >= 2);
+                      ? Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false)
+                      : Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                 }),
             Padding(
               padding: const EdgeInsets.only(left: 16.0),

@@ -65,6 +65,7 @@ flutter:
     - assets/rafinha3.jpg
     - assets/rafinha4.jpg
     - assets/rafinha5.jpg
+    - assets/profilePicPetlink.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
