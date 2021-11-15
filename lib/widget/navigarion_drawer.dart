@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -63,11 +64,11 @@ class NavigationDrawerWidget extends StatelessWidget {
             buildMenuItem(
                 text: 'Fazer Logout',
                 icon: Icons.logout,
-                onClicked: () {
+                onClicked: () async {
                   int count = 0;
-                  rota == 'feed'
-                      ? Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false)
-                      : Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/', (route) => false);
                 }),
             Padding(
               padding: const EdgeInsets.only(left: 16.0),

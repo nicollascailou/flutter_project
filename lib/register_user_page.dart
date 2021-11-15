@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/welcome_page.dart';
 
 class RegisterUserPage extends StatefulWidget {
   const RegisterUserPage({Key? key}) : super(key: key);
@@ -8,6 +10,17 @@ class RegisterUserPage extends StatefulWidget {
 }
 
 class _RegisterUserPageState extends State<RegisterUserPage> {
+  String email = '';
+  String password = '';
+  String confirmPassword = '';
+  bool showPassWord = true;
+  bool isLogin = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
   int hexColor(String color) {
     //adding prefix
     String newColor = '0xff' + color;
@@ -44,7 +57,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextField(
+                  TextFormField(
                     decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -54,37 +67,82 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                         labelText: "e-mail",
                         labelStyle: TextStyle(
                             fontSize: 24, color: Color(hexColor('#6FA698')))),
+                    onChanged: (text) {
+                      setState(() {
+                        email = text;
+                      });
+                    },
                   ),
                   SizedBox(
                     height: 16,
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(hexColor('#6FA698')), width: 2.5),
-                            borderRadius: BorderRadius.circular(15)),
-                        border: OutlineInputBorder(),
-                        labelText: "Senha",
-                        labelStyle: TextStyle(
-                            fontSize: 24, color: Color(hexColor('#6FA698')))),
-                    obscureText: true,
-                  ),
+                  TextFormField(
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              showPassWord
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              size: 25,
+                              color: Color(hexColor('#6FA698')),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                showPassWord = !showPassWord;
+                              });
+                            },
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(hexColor('#6FA698')),
+                                  width: 2.5),
+                              borderRadius: BorderRadius.circular(15)),
+                          border: OutlineInputBorder(),
+                          labelText: "Senha",
+                          labelStyle: TextStyle(
+                              fontSize: 24, color: Color(hexColor('#6FA698')))),
+                      obscureText: showPassWord,
+                      onChanged: (text) {
+                        setState(() {
+                          password = text;
+                        });
+                      }),
                   SizedBox(
                     height: 16,
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(hexColor('#6FA698')), width: 2.5),
-                            borderRadius: BorderRadius.circular(15)),
-                        border: OutlineInputBorder(),
-                        labelText: "Confirme a Senha",
-                        labelStyle: TextStyle(
-                            fontSize: 24, color: Color(hexColor('#6FA698')))),
-                    obscureText: true,
-                  ),
+                  TextFormField(
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              showPassWord
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              size: 25,
+                              color: Color(hexColor('#6FA698')),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                showPassWord = !showPassWord;
+                              });
+                            },
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(hexColor('#6FA698')),
+                                  width: 2.5),
+                              borderRadius: BorderRadius.circular(15)),
+                          border: OutlineInputBorder(),
+                          labelText: "Confirmar Senha",
+                          labelStyle: TextStyle(
+                              fontSize: 24, color: Color(hexColor('#6FA698')))),
+                      obscureText: showPassWord,
+                      onChanged: (text) {
+                        setState(() {
+                          confirmPassword = text;
+                        });
+                      }),
                   SizedBox(
                     height: 20,
                   ),
@@ -93,8 +151,29 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          onPressed: () { Navigator.of(context).pushReplacementNamed('userForm');},
-                          child: Text('Criar Conta'),
+                          onPressed: isLogin ||
+                                  email.isEmpty ||
+                                  password.isEmpty
+                              ? () {}
+                              : () async {
+                                  setState(() {
+                                    isLogin = true;
+                                  });
+                                  FirebaseAuth auth = FirebaseAuth.instance;
+                                  UserCredential credential =
+                                      await auth.createUserWithEmailAndPassword(
+                                          email: email, password: password);
+
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => WelcomePage(),
+                                  ));
+                                  setState(() {
+                                    isLogin = false;
+                                  });
+                                },
+                          child: isLogin
+                              ? CircularProgressIndicator()
+                              : Text('Cadastre-se'),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
                                   Color(hexColor('#6FA698')))),

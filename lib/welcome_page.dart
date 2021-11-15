@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/widget/navigarion_drawer.dart';
 
@@ -142,8 +143,9 @@ class _WelcomePageState extends State<WelcomePage> {
                                   labelPrefix: 'Fazer',
                                   labelSufix: 'LogOut',
                                   labelIcon: Icon(Icons.logout_rounded),
-                                  navegation: () {
-                                    Navigator.of(context).pushReplacementNamed('/');
+                                  navegation: () async {
+                                    await FirebaseAuth.instance.signOut();
+                                    Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                                   }),
                               buildButton(
                                   labelPrefix: 'Entre em',

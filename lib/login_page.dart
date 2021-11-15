@@ -1,14 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class login_page extends StatefulWidget {
-  const login_page({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _login_pageState createState() => _login_pageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _login_pageState extends State<login_page> {
+class _LoginPageState extends State<LoginPage> {
+  String email = '';
+  String password = '';
+  bool showPassWord = true;
+  bool isLogin = false;
+
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
   int hexColor(String color) {
     //adding prefix
     String newColor = '0xff' + color;
@@ -19,6 +29,7 @@ class _login_pageState extends State<login_page> {
     return finalColor;
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -44,14 +55,13 @@ class _login_pageState extends State<login_page> {
           child: SafeArea(
               child: Container(
             height: MediaQuery.of(context).size.height - 80,
-
             decoration: BoxDecoration(color: Color(hexColor('#D3E7E2'))),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextField(
+                  TextFormField(
                     decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -61,31 +71,70 @@ class _login_pageState extends State<login_page> {
                         labelText: "e-mail",
                         labelStyle: TextStyle(
                             fontSize: 24, color: Color(hexColor('#6FA698')))),
+                    onChanged: (text) {
+                      setState(() {
+                        email = text;
+                      });
+                    },
                   ),
                   SizedBox(
                     height: 16,
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(hexColor('#6FA698')), width: 2.5),
-                            borderRadius: BorderRadius.circular(15)),
-                        border: OutlineInputBorder(),
-                        labelText: "Senha",
-                        labelStyle: TextStyle(
-                            fontSize: 24, color: Color(hexColor('#6FA698')))),
-                    obscureText: true,
-                  ),
+                  TextFormField(
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              showPassWord
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              size: 25,
+                              color: Color(hexColor('#6FA698')),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                showPassWord = !showPassWord;
+                              });
+                            },
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(hexColor('#6FA698')),
+                                  width: 2.5),
+                              borderRadius: BorderRadius.circular(15)),
+                          border: OutlineInputBorder(),
+                          labelText: "Senha",
+                          labelStyle: TextStyle(
+                              fontSize: 24, color: Color(hexColor('#6FA698')))),
+                      obscureText: showPassWord,
+                      onChanged: (text) {
+                        setState(() {
+                          password = text;
+                        });
+                      }),
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed('welcome');
-                          },
-                          child: Text('Login'),
+                          onPressed: isLogin ||
+                                  email.isEmpty ||
+                                  password.isEmpty
+                              ? () {}
+                              : () async {
+                                  await FirebaseAuth.instance
+                                      .signInWithEmailAndPassword(
+                                          email: email, password: password);
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      'welcome', (route) => false);
+                                },
+                          child: isLogin
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  'Log in',
+                                  style: TextStyle(
+                                      color: Color(hexColor('#FFFFFF'))),
+                                ),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
                                   Color(hexColor('#6FA698')))),
@@ -97,7 +146,10 @@ class _login_pageState extends State<login_page> {
                           onPressed: () {
                             Navigator.of(context).pushNamed('register');
                           },
-                          child: Text('Cadastre-se'),
+                          child: Text(
+                            'Cadastre-se',
+                            style: TextStyle(color: Color(hexColor('#FFFFFF'))),
+                          ),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
                                   Color(hexColor('#6FA698')))),
