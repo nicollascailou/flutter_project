@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_project/bloc/pet_bloc.dart';
+import 'package:flutter_project/models/pet.dart';
 import 'package:flutter_project/widget/navigarion_drawer.dart';
 
 class home_page_feed extends StatefulWidget {
@@ -9,6 +13,8 @@ class home_page_feed extends StatefulWidget {
 }
 
 class _home_page_feedState extends State<home_page_feed> {
+  String uid = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,109 +31,33 @@ class _home_page_feedState extends State<home_page_feed> {
                   color: Color(hexColor('#0E5442'))),
             ),
           )),
-      body: ListView(
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: SafeArea(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(color: Color(hexColor('#D3E7E2'))),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          buildPost(
-                              imagePath: 'assets/gata1.jpg',
-                              petName: 'Minina',
-                              petRace: 'Vira-Lata',
-                              petAge: '2 anos'),
-                          buildPost(
-                              imagePath: 'assets/rafinha1.jpg',
-                              petName: 'Rafinha',
-                              petRace: 'Calopsita',
-                              petAge: '6 meses'),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          buildPost(
-                              imagePath: 'assets/gata2.jpg',
-                              petName: 'Minina',
-                              petRace: 'Vira-Lata',
-                              petAge: '2anos'),
-                          buildPost(
-                              imagePath: 'assets/gata3.jpg',
-                              petName: 'Minina',
-                              petRace: 'Vira-Lata',
-                              petAge: '2 anos'),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          buildPost(
-                              imagePath: 'assets/rafinha2.jpg',
-                              petName: 'Rafinha',
-                              petRace: 'Calopsita',
-                              petAge: '6 meses'),
-                          buildPost(
-                              imagePath: 'assets/gata5.jpg',
-                              petName: 'Minina',
-                              petRace: 'Vira-Lata',
-                              petAge: '2 anos'),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          buildPost(
-                              imagePath: 'assets/rafinha4.jpg',
-                              petName: 'Rafinha',
-                              petRace: 'Calopsita',
-                              petAge: '6 meses'),
-                          buildPost(
-                              imagePath: 'assets/rafinha3.jpg',
-                              petName: 'Rafinha',
-                              petRace: 'Calopsita',
-                              petAge: '6 meses'),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+      body: SafeArea(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(color: Color(hexColor('#D3E7E2'))),
+          child: BlocBuilder<PetBloc, List<Pet>?>(
+            builder: (context, state) {
+              if (state == null) return CircularProgressIndicator();
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: state.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 5,),
+                        buildPost(
+                            imagePath: state[index].downloadUrl,
+                            petName: state[index].name,
+                            petRace: state[index].race,
+                            petAge: state[index].age),
+                        SizedBox(height: 5,)
+                      ],
+                    );
+                  });
+            },
           ),
-        ],
+        ),
       ),
     );
   }
@@ -159,13 +89,13 @@ class _home_page_feedState extends State<home_page_feed> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 image: DecorationImage(
-                  image: AssetImage(imagePath),
+                  image: NetworkImage(imagePath),
                   fit: BoxFit.cover,
                   colorFilter: new ColorFilter.mode(
                       Colors.black.withOpacity(0.8), BlendMode.dstATop),
                 )),
             height: 260,
-            width: 180,
+            width: MediaQuery.of(context).size.width - 10,
             child: Padding(
               padding: const EdgeInsets.only(left: 0, top: 4),
               child: Column(

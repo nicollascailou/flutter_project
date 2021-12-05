@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project/bloc/pet_bloc.dart';
+import 'package:flutter_project/bloc/user_bloc.dart';
 import 'package:flutter_project/home_page_feed.dart';
 import 'package:flutter_project/login_page.dart';
 import 'package:flutter_project/register_pet.dart';
@@ -16,6 +17,9 @@ Future<void> main() async {
     providers: [
       BlocProvider(
         create: (context) => PetBloc(),
+      ),
+      BlocProvider(
+        create: (context) => UserBloc(),
       )
     ],
     child: MaterialApp(
@@ -27,7 +31,7 @@ Future<void> main() async {
         "feed": (context) => home_page_feed(),
         "register": (context) => RegisterUserPage(),
         "welcome": (context) => WelcomePage(),
-        "userForm": (context) => UserProfileForm(),
+        "userForm": (context) => UserProfileForm(""),
       },
     ),
   ));

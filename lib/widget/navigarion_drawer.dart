@@ -49,15 +49,6 @@ class NavigationDrawerWidget extends StatelessWidget {
                             }),
                   buildMenuItem(
                       text: 'contate-nos', icon: Icons.mail, onClicked: () {}),
-                  /*const SizedBox(
-                    height: 16,
-                  ),
-                  buildMenuItem(
-                  text: 'Favoritos',
-                  icon: Icons.favorite_border,
-                  onClicked: () {
-                    Navigator.of(context).pushNamed('register_pet');
-                  }),*/
                 ],
               ),
             ),

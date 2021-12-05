@@ -1,7 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_project/bloc/pet_bloc.dart';
+import 'package:flutter_project/models/pet.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RegisterPet extends StatefulWidget {
@@ -12,7 +17,17 @@ class RegisterPet extends StatefulWidget {
 }
 
 class _RegisterPetState extends State<RegisterPet> {
+  final _storage = FirebaseStorage.instance;
+  String uid = FirebaseAuth.instance.currentUser!.uid;
+  String name = '';
+  String description = '';
+  String phoneNumber = '';
+  String age = '';
+  String race = '';
+  String downloadUrl = '';
   File? image;
+  bool isRegister = false;
+
   List healthlist = [
     "Excelente",
     "Bom Estado",
@@ -20,6 +35,13 @@ class _RegisterPetState extends State<RegisterPet> {
     "Precisa de muitos cuidados"
   ];
   String? valueChoose;
+
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _raceController = TextEditingController();
+  final _ageController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _phoneController = TextEditingController();
 
   Future pickImageGalery() async {
     try {
@@ -175,64 +197,167 @@ class _RegisterPetState extends State<RegisterPet> {
                                 ),
                               ],
                             ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 16,
+                            ),
+                            TextFormField(
+                              controller: _nameController,
+                              validator: (String? text) {
+                                if (text != null && text.isEmpty) {
+                                  return 'Preencha o campo acima!';
+                                }
+                                return null;
+                              },
+                              onChanged: (text) {
+                                setState(() {
+                                  name = text;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(hexColor('#6FA698')),
+                                          width: 2.5),
+                                      borderRadius: BorderRadius.circular(15)),
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Nome do pet',
+                                  labelText: "Nome",
+                                  labelStyle: TextStyle(
+                                      fontSize: 24,
+                                      color: Color(hexColor('#6FA698')))),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            TextFormField(
+                              controller: _raceController,
+                              validator: (String? text) {
+                                if (text != null && text.isEmpty) {
+                                  return 'Preencha o campo acima!';
+                                }
+                                return null;
+                              },
+                              onChanged: (text) {
+                                setState(() {
+                                  race = text;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(hexColor('#6FA698')),
+                                          width: 2.5),
+                                      borderRadius: BorderRadius.circular(15)),
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Raça do pet',
+                                  labelText: "Raça",
+                                  labelStyle: TextStyle(
+                                      fontSize: 24,
+                                      color: Color(hexColor('#6FA698')))),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            TextFormField(
+                              controller: _ageController,
+                              validator: (String? text) {
+                                if (text != null && text.isEmpty) {
+                                  return 'Preencha o campo acima!';
+                                }
+                                return null;
+                              },
+                              onChanged: (text) {
+                                setState(() {
+                                  age = text;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(hexColor('#6FA698')),
+                                          width: 2.5),
+                                      borderRadius: BorderRadius.circular(15)),
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Idade do pet',
+                                  labelText: "Idade",
+                                  labelStyle: TextStyle(
+                                      fontSize: 24,
+                                      color: Color(hexColor('#6FA698')))),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            TextFormField(
+                              controller: _descriptionController,
+                              validator: (String? text) {
+                                if (text != null && text.isEmpty) {
+                                  return 'Preencha o campo acima!';
+                                }
+                                return null;
+                              },
+                              onChanged: (text) {
+                                setState(() {
+                                  description = text;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(hexColor('#6FA698')),
+                                          width: 2.5),
+                                      borderRadius: BorderRadius.circular(15)),
+                                  hintText:
+                                      'Saúde do pet, comportamento, aspectos...',
+                                  labelText: "Descrição",
+                                  border: OutlineInputBorder(),
+                                  labelStyle: TextStyle(
+                                    fontSize: 24,
                                     color: Color(hexColor('#6FA698')),
-                                    width: 2.5),
-                                borderRadius: BorderRadius.circular(15)),
-                            border: OutlineInputBorder(),
-                            hintText: 'Nome do pet',
-                            labelText: "Nome",
-                            labelStyle: TextStyle(
-                                fontSize: 24,
-                                color: Color(hexColor('#6FA698')))),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                  )),
+                              maxLines: 3,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            TextFormField(
+                              controller: _phoneController,
+                              validator: (String? text) {
+                                if (text != null && text.isEmpty) {
+                                  return 'Preencha o campo acima!';
+                                }
+                                return null;
+                              },
+                              onChanged: (text) {
+                                setState(() {
+                                  phoneNumber = text;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(hexColor('#6FA698')),
+                                          width: 2.5),
+                                      borderRadius: BorderRadius.circular(15)),
+                                  hintText:
+                                      'DDD-XXXXX-XXXX / Número para contato',
+                                  labelText: "Celular",
+                                  border: OutlineInputBorder(),
+                                  labelStyle: TextStyle(
+                                    fontSize: 24,
                                     color: Color(hexColor('#6FA698')),
-                                    width: 2.5),
-                                borderRadius: BorderRadius.circular(15)),
-                            hintText:
-                                'Saúde do pet, comportamento, aspectos...',
-                            labelText: "Descrição",
-                            border: OutlineInputBorder(),
-                            labelStyle: TextStyle(
-                              fontSize: 24,
-                              color: Color(hexColor('#6FA698')),
-                            )),
-                        maxLines: 3,
+                                  )),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color(hexColor('#6FA698')),
-                                    width: 2.5),
-                                borderRadius: BorderRadius.circular(15)),
-                            hintText: 'DDD-XXXXX-XXXX / Número para contato',
-                            labelText: "Celular",
-                            border: OutlineInputBorder(),
-                            labelStyle: TextStyle(
-                              fontSize: 24,
-                              color: Color(hexColor('#6FA698')),
-                            )),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
+
                       Container(
                         width: 300,
                         decoration: BoxDecoration(
@@ -255,7 +380,9 @@ class _RegisterPetState extends State<RegisterPet> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          registerPet();
+                        },
                         child: Text('Salvar'),
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
@@ -268,5 +395,75 @@ class _RegisterPetState extends State<RegisterPet> {
         ),
       ),
     );
+  }
+
+  void registerPet() {
+    name.isEmpty ||
+            race.isEmpty ||
+            age.isEmpty ||
+            description.isEmpty ||
+            phoneNumber.isEmpty ||
+            valueChoose!.isEmpty
+        ? () {
+            if (_formKey.currentState!.validate()) {
+              return null;
+            }
+          }()
+        : () async {
+            if (_formKey.currentState!.validate()) {
+              try {
+                setState(() {
+                  isRegister = true;
+                });
+
+                if (image != null) {
+                  try {
+                    var snapshot =
+                    await _storage
+                        .ref()
+                        .child('petImage/$uid$name')
+                        .putFile(image!);
+
+                    var downloadUrl1 = await snapshot.ref.getDownloadURL();
+                    setState(() {
+                      downloadUrl = downloadUrl1;
+                    });
+                  } on FirebaseException catch (e) {
+                    print('ERRO IMAGE: $e');
+                  }
+                }
+                Pet pet = Pet(name, race, age, uid, description, valueChoose!,
+                    downloadUrl);
+
+                await BlocProvider.of<PetBloc>(context).addPet(pet);
+
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('welcome', (route) => false);
+                setState(() {
+                  isRegister = false;
+                });
+              } catch (e) {
+                print(e);
+                setState(() {
+                  isRegister = false;
+                });
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Erro ao registrar dados',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                    backgroundColor: Colors.red,
+                    duration: Duration(seconds: 3),
+                  ),
+                );
+              }
+            }
+          }();
   }
 }
